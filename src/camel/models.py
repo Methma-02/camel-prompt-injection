@@ -9,6 +9,7 @@ from agentdojo.models import MODEL_NAMES
 from google import genai
 from openai.types.chat import ChatCompletionReasoningEffort
 from pydantic_ai.models import KnownModelName
+from camel.local_openai_client import LocalOpenAIClient
 
 from camel.interpreter.interpreter import MetadataEvalMode
 from camel.pipeline_elements.anthropic_tool_filter import AnthropicLLMToolFilter
@@ -38,6 +39,7 @@ _supported_model_names = {
     "gemini-2.5-flash-preview-05-20": "AI model developed by Google",
     "gemini-2.5-pro-preview-06-05": "AI model developed by Google",
     "gemini-2.0-flash-lite-001": "AI model developed by Google",
+     "llama31-camel": "Local model",
     "claude-3-5-haiku-20241022": "Claude",
     "claude-3-5-sonnet-20241022": "Claude",
     "claude-3-7-sonnet-20250219": "Claude",
@@ -108,7 +110,10 @@ def make_tools_pipeline(
             max_tokens = 65535
         llm = agent_pipeline.GoogleLLM(model.split(":")[1], client, max_tokens=max_tokens)
     elif "openai" in model:
-        client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        if os.getenv("OPENAI_BASE_URL"): 
+            client = LocalOpenAIClient(api_key=os.getenv("OPENAI_API_KEY"))
+        else:
+            client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         # reasoning models do not support temperature and their "system" message is called "developer" message
         if _is_oai_reasoning_model(model):
             llm = agent_pipeline.OpenAILLM(client, model.split(":")[1], reasoning_effort, None)
