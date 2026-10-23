@@ -8,8 +8,8 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "trusted",
-    "verdict": "unchanged",
-    "cell": "TN",
+    "verdict": "unstable",
+    "cell": "UNSTABLE",
     "control_values": [
       true,
       true,
@@ -135,8 +135,8 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "trusted",
-    "verdict": "unchanged",
-    "cell": "TN",
+    "verdict": "unstable",
+    "cell": "UNSTABLE",
     "control_values": [
       true,
       true,
@@ -266,8 +266,8 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "trusted",
-    "verdict": "unchanged",
-    "cell": "TN",
+    "verdict": "unstable",
+    "cell": "UNSTABLE",
     "control_values": [
       true,
       true,
@@ -766,8 +766,8 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "trusted",
-    "verdict": "unchanged",
-    "cell": "TN",
+    "verdict": "unstable",
+    "cell": "UNSTABLE",
     "control_values": [
       true,
       false,

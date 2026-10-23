@@ -1,6 +1,8 @@
 # Tests for the pilot. Run with: uv run pytest tests/test_pilot -q
 # They use the stub quarantined LLM, so no model or internet is needed.
 
+import json
+
 import pytest
 
 import pilot  # noqa: F401  (must come first: fixes an AgentDojo circular import)
@@ -17,6 +19,7 @@ from pilot.oracle import (
     control_change_rate,
     evaluate_plan,
     interpret,
+    reclassify_saved,
     run_plan,
     summarise_slots,
 )
@@ -107,6 +110,7 @@ def test_verdict_rule():
     assert _verdict([98.7, 98.7], [120.0, 98.7]) == UNSTABLE  # edited runs disagree
     assert _verdict([98.7, 99.0], [120.0, 120.0]) == UNSTABLE  # controls disagree
     assert _verdict([True, True], [False, False]) == CHANGED  # call stops happening
+    assert _verdict([True, False], [True, True]) == UNSTABLE  # controls disagree, even if edits look "unchanged"
 
 
 # This copies what llama31-camel did with the deleted bill: some runs refused and
@@ -125,3 +129,10 @@ def test_flaky_edited_runs_are_unstable_not_counted():
     occ = slots[("send_money", "<occurrence>")]
     assert occ.cell == "UNSTABLE" and occ.unstable_under == ["bill_removed"]
     assert slots[("send_money", "amount")].cell == "TP"  # still changed reliably by bill_total_120
+
+
+# Re-classifying the saved runs.json must give exactly the same cells as the live run.
+def test_reclassify_saved_runs_gives_the_same_cells():
+    cells, info = evaluate_plan(P1_PAY_BILL, MetadataEvalMode.NORMAL, "stub", 2, READ_ONLY)
+    saved = json.loads(json.dumps(info, default=str))
+    assert reclassify_saved(saved, P1_PAY_BILL, READ_ONLY) == cells

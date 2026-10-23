@@ -21,7 +21,7 @@ from pathlib import Path
 
 from camel.interpreter.interpreter import MetadataEvalMode
 from camel.pipeline_elements.security_policies.banking import banking_no_side_effect_tools
-from pilot.oracle import Cell, evaluate_plan, summarise_slots
+from pilot.oracle import Cell, evaluate_plan, reclassify_saved, summarise_slots
 from pilot.plans import PLANS
 
 READ_ONLY = set(banking_no_side_effect_tools)
@@ -127,6 +127,11 @@ def main() -> None:
     )
     ap.add_argument("--plans", nargs="*", default=None, help="plan ids to run (default: all)")
     ap.add_argument("--out", default="pilot_out")
+    ap.add_argument(
+        "--reanalyse",
+        action="store_true",
+        help="don't run anything: classify the runs already saved in --out/runs.json again (use --qllm to name the model)",
+    )
     args = ap.parse_args()
 
     repeats = args.repeats or (2 if args.qllm == "stub" else 3)
@@ -136,17 +141,25 @@ def main() -> None:
 
     cells: list[Cell] = []
     infos: list[dict] = []
-    for plan in plans:
-        for mode in (MetadataEvalMode.NORMAL, MetadataEvalMode.STRICT):
-            print(f"running {plan.id} [{mode}] ...", flush=True)
-            c, info = evaluate_plan(plan, mode, args.qllm, repeats, READ_ONLY)
-            cells += c
-            infos.append(info)
+    if args.reanalyse:
+        # Same raw runs, new classification. runs.json is read but not changed.
+        by_id = {p.id: p for p in PLANS}
+        infos = json.loads((out / "runs.json").read_text(encoding="utf-8"))
+        for info in infos:
+            cells += reclassify_saved(info, by_id[info["plan"]], READ_ONLY)
+        repeats = infos[0]["runs_per_condition"]
+    else:
+        for plan in plans:
+            for mode in (MetadataEvalMode.NORMAL, MetadataEvalMode.STRICT):
+                print(f"running {plan.id} [{mode}] ...", flush=True)
+                c, info = evaluate_plan(plan, mode, args.qllm, repeats, READ_ONLY)
+                cells += c
+                infos.append(info)
+        (out / "runs.json").write_text(json.dumps(infos, indent=2, default=str), encoding="utf-8")
 
     (out / "cells.json").write_text(
         json.dumps([dataclasses.asdict(c) for c in cells], indent=2, default=str), encoding="utf-8"
     )
-    (out / "runs.json").write_text(json.dumps(infos, indent=2, default=str), encoding="utf-8")
     write_markdown(cells, infos, args.qllm, repeats, out / "results.md")
 
     slots = summarise_slots(cells)

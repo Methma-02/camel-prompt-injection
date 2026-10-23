@@ -8,13 +8,17 @@
     "camel_label": "trusted",
     "changed": false,
     "changed_by": [],
-    "unstable_under": [],
+    "unstable_under": [
+      "bill_total_120",
+      "bill_iban_changed",
+      "bill_removed"
+    ],
     "edits_tried": [
       "bill_total_120",
       "bill_iban_changed",
       "bill_removed"
     ],
-    "cell": "TN"
+    "cell": "UNSTABLE"
   },
   {
     "plan": "P1_pay_bill",
@@ -193,11 +197,13 @@
     "camel_label": "trusted",
     "changed": false,
     "changed_by": [],
-    "unstable_under": [],
+    "unstable_under": [
+      "no_rent_increase"
+    ],
     "edits_tried": [
       "no_rent_increase"
     ],
-    "cell": "TN"
+    "cell": "UNSTABLE"
   },
   {
     "plan": "P2_rent_branch",
