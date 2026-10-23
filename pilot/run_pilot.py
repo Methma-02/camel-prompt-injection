@@ -1,16 +1,14 @@
-"""Run the I0 feasibility spike and write the results.
-
-Examples (from the repository root):
-
-    uv run python -m pilot.run_pilot --qllm stub
-    uv run --env-file .env python -m pilot.run_pilot --qllm openai:llama31-camel --repeats 3 --out pilot_out_llama
-
-Outputs in --out (default pilot_out/):
-    slots.json    one row per (plan, mode, call, argument) slot, judged over all edits
-    cells.json    one row per (plan, edit, mode, call, argument) with its TP/FP/FN/TN cell
-    runs.json     every logged call, its labels and the policy decision, per run
-    results.md    the summary tables used in the progress evidence
-"""
+# Runs the pilot and writes the results.
+#
+# How to run (from the camel-prompt-injection folder):
+#     uv run python -m pilot.run_pilot --qllm stub
+#     uv run --env-file .env python -m pilot.run_pilot --qllm openai:llama31-camel --repeats 5 --out pilot_out_llama_v2
+#
+# Files written to the --out folder (default pilot_out):
+#     results.md  the summary tables
+#     slots.json  one row per slot (plan, mode, call, argument), judged over all edits
+#     cells.json  one row per edit and slot
+#     runs.json   every logged call with its labels and the policy decision, for every run
 
 from __future__ import annotations
 
@@ -27,12 +25,15 @@ from pilot.oracle import Cell, evaluate_plan, summarise_slots
 from pilot.plans import PLANS
 
 READ_ONLY = set(banking_no_side_effect_tools)
-CELLS = ("TP", "FP", "FN", "TN")
+CELLS = ("TP", "FP", "FN", "TN")  # plus UNSTABLE, reported separately
 
 
 def _fmt(v: object) -> str:
-    s = json.dumps(v) if not isinstance(v, str) else v
-    return s if len(s) <= 40 else s[:37] + "..."
+    if isinstance(v, list) and len({json.dumps(x, default=str) for x in v}) == 1:
+        v = f"{_fmt(v[0])} (x{len(v)})"  # all runs agree: show the value once
+    s = json.dumps(v, default=str) if not isinstance(v, str) else v
+    s = s.replace("|", "/")
+    return s if len(s) <= 60 else s[:57] + "..."
 
 
 def write_markdown(cells: list[Cell], infos: list[dict], backend: str, repeats: int, path: Path) -> None:
@@ -40,81 +41,89 @@ def write_markdown(cells: list[Cell], infos: list[dict], backend: str, repeats: 
         "# I0 feasibility spike: results",
         "",
         f"- Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}",
-        f"- Suite: AgentDojo v1.2 Banking; quarantined LLM: `{backend}`; control replays per plan and mode: {repeats}",
+        f"- Suite: AgentDojo v1.2 Banking; quarantined LLM: `{backend}`; runs per condition (unedited, and each edit): {repeats}",
         "- Plans are fixed and hand-written; only untrusted file contents are edited.",
         "- Cell = CaMeL label (untrusted/trusted) x oracle (changed/unchanged): "
         "TP untrusted+changed, FP untrusted+unchanged, FN trusted+changed, TN trusted+unchanged.",
         "",
         "Each slot is one argument of one call (or `<occurrence>`: whether the call happens at all), "
-        "in one plan and mode. A slot counts as changed if any edit changed it beyond the control-replay noise.",
+        "in one plan and mode. A slot counts as changed if at least one edit changed it in every edited run, "
+        "beyond the values seen in the unedited runs. A slot an edit changed in some runs but not others is "
+        "UNSTABLE: the change cannot be told apart from model noise, so it is kept out of TP/FP/FN/TN.",
         "",
         "## Totals by mode (slots)",
         "",
-        "| Mode | TP | FP | FN | TN | Slots |",
-        "|---|---|---|---|---|---|",
+        "| Mode | TP | FP | FN | TN | Unstable | Slots |",
+        "|---|---|---|---|---|---|---|",
     ]
     slots = summarise_slots(cells)
     for mode in ("NORMAL", "STRICT"):
         c = Counter(x.cell for x in slots if x.mode == mode)
-        lines.append(f"| {mode} | " + " | ".join(str(c[k]) for k in CELLS) + f" | {sum(c.values())} |")
+        lines.append(
+            f"| {mode} | " + " | ".join(str(c[k]) for k in CELLS) + f" | {c['UNSTABLE']} | {sum(c.values())} |"
+        )
 
     lines += [
         "",
         "## Every slot",
         "",
-        "| Plan | Mode | Call | Slot | CaMeL label | Changed by | Cell |",
-        "|---|---|---|---|---|---|---|",
+        "| Plan | Mode | Call | Slot | CaMeL label | Changed by | Unstable under | Cell |",
+        "|---|---|---|---|---|---|---|---|",
     ]
     for x in slots:
         lines.append(
             f"| {x.plan} | {x.mode} | {x.tool}#{x.occurrence} | {x.target} | {x.camel_label} | "
-            f"{', '.join(x.changed_by) or '-'} | **{x.cell}** |"
+            f"{', '.join(x.changed_by) or '-'} | {', '.join(x.unstable_under) or '-'} | **{x.cell}** |"
         )
 
     lines += [
         "",
-        "## Control replays (noise)",
+        "## Noise: how much repeated runs of the same input differ",
         "",
-        "| Plan | Mode | Change rate between unedited runs | Errors |",
-        "|---|---|---|---|",
+        "| Plan | Mode | Input | Change rate between runs | Errors |",
+        "|---|---|---|---|---|",
     ]
     for info in infos:
         errs = "; ".join(sorted(set(info["control_errors"]))) or "none"
-        lines.append(f"| {info['plan']} | {info['mode']} | {info['control_change_rate']:.2f} | {errs} |")
+        lines.append(f"| {info['plan']} | {info['mode']} | unedited | {info['control_change_rate']:.2f} | {errs} |")
+        for e in info["edits"]:
+            errs = "; ".join(sorted({x for x in e["errors"] if x})) or "none"
+            lines.append(
+                f"| {info['plan']} | {info['mode']} | {e['edit']} | {e['change_rate_between_edited_runs']:.2f} | {errs} |"
+            )
 
     lines += [
         "",
         "## Every edit, slot by slot",
         "",
-        "| Plan | Edit (type) | Mode | Call | Argument | CaMeL label | Before | After | Changed | Cell |",
+        "| Plan | Edit (type) | Mode | Call | Argument | CaMeL label | Unedited runs | Edited runs | Verdict | Cell |",
         "|---|---|---|---|---|---|---|---|---|---|",
     ]
     for x in cells:
         lines.append(
             f"| {x.plan} | {x.edit} ({x.edit_type}) | {x.mode} | {x.tool}#{x.occurrence} | {x.target} | "
-            f"{x.camel_label} | {_fmt(x.baseline_value)} | {_fmt(x.edited_value)} | {'yes' if x.changed else 'no'} | **{x.cell}** |"
+            f"{x.camel_label} | {_fmt(x.control_values)} | {_fmt(x.edited_values)} | {x.verdict} | **{x.cell}** |"
         )
 
     lines += ["", "## Plans and what the code analysis predicts", ""]
     for p in PLANS:
         lines.append(f"- **{p.id}** ({p.based_on}): {p.description} Expected: {p.expected}")
 
-    edit_errors = [(i["plan"], i["mode"], e["edit"], e["error"]) for i in infos for e in i["edits"] if e["error"]]
-    if edit_errors:
-        lines += ["", "## Runs that ended in an error", ""]
-        lines += [f"- {p} / {m} / {e}: `{err}`" for p, m, e, err in edit_errors]
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(description="Run the counterfactual label oracle pilot on the Banking suite.")
     ap.add_argument(
         "--qllm",
         default="stub",
         help="'stub', or a model name passed to CaMeL's quarantined LLM, e.g. openai:llama31-camel (default: stub)",
     )
     ap.add_argument(
-        "--repeats", type=int, default=None, help="control replays per plan and mode (default: 2 for stub, 3 otherwise)"
+        "--repeats",
+        type=int,
+        default=None,
+        help="runs per condition (unedited, and each edit) (default: 2 for stub, 3 otherwise)",
     )
     ap.add_argument("--plans", nargs="*", default=None, help="plan ids to run (default: all)")
     ap.add_argument("--out", default="pilot_out")
@@ -144,7 +153,7 @@ def main() -> None:
     (out / "slots.json").write_text(json.dumps([dataclasses.asdict(s) for s in slots], indent=2), encoding="utf-8")
     for mode in ("NORMAL", "STRICT"):
         c = Counter(x.cell for x in slots if x.mode == mode)
-        print(f"{mode}: " + "  ".join(f"{k}={c[k]}" for k in CELLS))
+        print(f"{mode}: " + "  ".join(f"{k}={c[k]}" for k in CELLS) + f"  UNSTABLE={c['UNSTABLE']}")
     print(f"wrote {out / 'results.md'}")
 
 

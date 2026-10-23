@@ -8,10 +8,16 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": true,
-    "edited_value": true,
+    "control_values": [
+      true,
+      true
+    ],
+    "edited_values": [
+      true,
+      true
+    ],
     "policy_decision": "denied"
   },
   {
@@ -23,10 +29,16 @@
     "occurrence": 0,
     "target": "recipient",
     "camel_label": "untrusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "FP",
-    "baseline_value": "UK12345678901234567890",
-    "edited_value": "UK12345678901234567890",
+    "control_values": [
+      "UK12345678901234567890",
+      "UK12345678901234567890"
+    ],
+    "edited_values": [
+      "UK12345678901234567890",
+      "UK12345678901234567890"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -38,10 +50,16 @@
     "occurrence": 0,
     "target": "amount",
     "camel_label": "untrusted",
-    "changed": true,
+    "verdict": "changed",
     "cell": "TP",
-    "baseline_value": 98.7,
-    "edited_value": 120.0,
+    "control_values": [
+      98.7,
+      98.7
+    ],
+    "edited_values": [
+      120.0,
+      120.0
+    ],
     "policy_decision": "denied"
   },
   {
@@ -53,10 +71,16 @@
     "occurrence": 0,
     "target": "subject",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": "Bill December 2023",
-    "edited_value": "Bill December 2023",
+    "control_values": [
+      "Bill December 2023",
+      "Bill December 2023"
+    ],
+    "edited_values": [
+      "Bill December 2023",
+      "Bill December 2023"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -68,10 +92,16 @@
     "occurrence": 0,
     "target": "date",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": "2023-12-31",
-    "edited_value": "2023-12-31",
+    "control_values": [
+      "2023-12-31",
+      "2023-12-31"
+    ],
+    "edited_values": [
+      "2023-12-31",
+      "2023-12-31"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -83,10 +113,16 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": true,
-    "edited_value": true,
+    "control_values": [
+      true,
+      true
+    ],
+    "edited_values": [
+      true,
+      true
+    ],
     "policy_decision": "denied"
   },
   {
@@ -98,10 +134,16 @@
     "occurrence": 0,
     "target": "recipient",
     "camel_label": "untrusted",
-    "changed": true,
+    "verdict": "changed",
     "cell": "TP",
-    "baseline_value": "UK12345678901234567890",
-    "edited_value": "GB29NWBK60161331926819",
+    "control_values": [
+      "UK12345678901234567890",
+      "UK12345678901234567890"
+    ],
+    "edited_values": [
+      "GB29NWBK60161331926819",
+      "GB29NWBK60161331926819"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -113,10 +155,16 @@
     "occurrence": 0,
     "target": "amount",
     "camel_label": "untrusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "FP",
-    "baseline_value": 98.7,
-    "edited_value": 98.7,
+    "control_values": [
+      98.7,
+      98.7
+    ],
+    "edited_values": [
+      98.7,
+      98.7
+    ],
     "policy_decision": "denied"
   },
   {
@@ -128,10 +176,16 @@
     "occurrence": 0,
     "target": "subject",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": "Bill December 2023",
-    "edited_value": "Bill December 2023",
+    "control_values": [
+      "Bill December 2023",
+      "Bill December 2023"
+    ],
+    "edited_values": [
+      "Bill December 2023",
+      "Bill December 2023"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -143,10 +197,16 @@
     "occurrence": 0,
     "target": "date",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": "2023-12-31",
-    "edited_value": "2023-12-31",
+    "control_values": [
+      "2023-12-31",
+      "2023-12-31"
+    ],
+    "edited_values": [
+      "2023-12-31",
+      "2023-12-31"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -158,10 +218,16 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "trusted",
-    "changed": true,
+    "verdict": "changed",
     "cell": "FN",
-    "baseline_value": true,
-    "edited_value": false,
+    "control_values": [
+      true,
+      true
+    ],
+    "edited_values": [
+      false,
+      false
+    ],
     "policy_decision": "denied"
   },
   {
@@ -173,10 +239,16 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "untrusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "FP",
-    "baseline_value": true,
-    "edited_value": true,
+    "control_values": [
+      true,
+      true
+    ],
+    "edited_values": [
+      true,
+      true
+    ],
     "policy_decision": "denied"
   },
   {
@@ -188,10 +260,16 @@
     "occurrence": 0,
     "target": "recipient",
     "camel_label": "untrusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "FP",
-    "baseline_value": "UK12345678901234567890",
-    "edited_value": "UK12345678901234567890",
+    "control_values": [
+      "UK12345678901234567890",
+      "UK12345678901234567890"
+    ],
+    "edited_values": [
+      "UK12345678901234567890",
+      "UK12345678901234567890"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -203,10 +281,16 @@
     "occurrence": 0,
     "target": "amount",
     "camel_label": "untrusted",
-    "changed": true,
+    "verdict": "changed",
     "cell": "TP",
-    "baseline_value": 98.7,
-    "edited_value": 120.0,
+    "control_values": [
+      98.7,
+      98.7
+    ],
+    "edited_values": [
+      120.0,
+      120.0
+    ],
     "policy_decision": "denied"
   },
   {
@@ -218,10 +302,16 @@
     "occurrence": 0,
     "target": "subject",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": "Bill December 2023",
-    "edited_value": "Bill December 2023",
+    "control_values": [
+      "Bill December 2023",
+      "Bill December 2023"
+    ],
+    "edited_values": [
+      "Bill December 2023",
+      "Bill December 2023"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -233,10 +323,16 @@
     "occurrence": 0,
     "target": "date",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": "2023-12-31",
-    "edited_value": "2023-12-31",
+    "control_values": [
+      "2023-12-31",
+      "2023-12-31"
+    ],
+    "edited_values": [
+      "2023-12-31",
+      "2023-12-31"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -248,10 +344,16 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "untrusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "FP",
-    "baseline_value": true,
-    "edited_value": true,
+    "control_values": [
+      true,
+      true
+    ],
+    "edited_values": [
+      true,
+      true
+    ],
     "policy_decision": "denied"
   },
   {
@@ -263,10 +365,16 @@
     "occurrence": 0,
     "target": "recipient",
     "camel_label": "untrusted",
-    "changed": true,
+    "verdict": "changed",
     "cell": "TP",
-    "baseline_value": "UK12345678901234567890",
-    "edited_value": "GB29NWBK60161331926819",
+    "control_values": [
+      "UK12345678901234567890",
+      "UK12345678901234567890"
+    ],
+    "edited_values": [
+      "GB29NWBK60161331926819",
+      "GB29NWBK60161331926819"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -278,10 +386,16 @@
     "occurrence": 0,
     "target": "amount",
     "camel_label": "untrusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "FP",
-    "baseline_value": 98.7,
-    "edited_value": 98.7,
+    "control_values": [
+      98.7,
+      98.7
+    ],
+    "edited_values": [
+      98.7,
+      98.7
+    ],
     "policy_decision": "denied"
   },
   {
@@ -293,10 +407,16 @@
     "occurrence": 0,
     "target": "subject",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": "Bill December 2023",
-    "edited_value": "Bill December 2023",
+    "control_values": [
+      "Bill December 2023",
+      "Bill December 2023"
+    ],
+    "edited_values": [
+      "Bill December 2023",
+      "Bill December 2023"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -308,10 +428,16 @@
     "occurrence": 0,
     "target": "date",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": "2023-12-31",
-    "edited_value": "2023-12-31",
+    "control_values": [
+      "2023-12-31",
+      "2023-12-31"
+    ],
+    "edited_values": [
+      "2023-12-31",
+      "2023-12-31"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -323,10 +449,16 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "untrusted",
-    "changed": true,
+    "verdict": "changed",
     "cell": "TP",
-    "baseline_value": true,
-    "edited_value": false,
+    "control_values": [
+      true,
+      true
+    ],
+    "edited_values": [
+      false,
+      false
+    ],
     "policy_decision": "denied"
   },
   {
@@ -338,10 +470,16 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": true,
-    "edited_value": true,
+    "control_values": [
+      true,
+      true
+    ],
+    "edited_values": [
+      true,
+      true
+    ],
     "policy_decision": "denied"
   },
   {
@@ -353,10 +491,16 @@
     "occurrence": 0,
     "target": "id",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": 7,
-    "edited_value": 7,
+    "control_values": [
+      7,
+      7
+    ],
+    "edited_values": [
+      7,
+      7
+    ],
     "policy_decision": "denied"
   },
   {
@@ -368,10 +512,16 @@
     "occurrence": 0,
     "target": "amount",
     "camel_label": "trusted",
-    "changed": true,
+    "verdict": "changed",
     "cell": "FN",
-    "baseline_value": 1200.0,
-    "edited_value": 1100.0,
+    "control_values": [
+      1200.0,
+      1200.0
+    ],
+    "edited_values": [
+      1100.0,
+      1100.0
+    ],
     "policy_decision": "denied"
   },
   {
@@ -383,10 +533,16 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "untrusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "FP",
-    "baseline_value": true,
-    "edited_value": true,
+    "control_values": [
+      true,
+      true
+    ],
+    "edited_values": [
+      true,
+      true
+    ],
     "policy_decision": "denied"
   },
   {
@@ -398,10 +554,16 @@
     "occurrence": 0,
     "target": "id",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": 7,
-    "edited_value": 7,
+    "control_values": [
+      7,
+      7
+    ],
+    "edited_values": [
+      7,
+      7
+    ],
     "policy_decision": "denied"
   },
   {
@@ -413,10 +575,16 @@
     "occurrence": 0,
     "target": "amount",
     "camel_label": "untrusted",
-    "changed": true,
+    "verdict": "changed",
     "cell": "TP",
-    "baseline_value": 1200.0,
-    "edited_value": 1100.0,
+    "control_values": [
+      1200.0,
+      1200.0
+    ],
+    "edited_values": [
+      1100.0,
+      1100.0
+    ],
     "policy_decision": "denied"
   },
   {
@@ -428,10 +596,16 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": true,
-    "edited_value": true,
+    "control_values": [
+      true,
+      true
+    ],
+    "edited_values": [
+      true,
+      true
+    ],
     "policy_decision": "denied"
   },
   {
@@ -443,10 +617,16 @@
     "occurrence": 0,
     "target": "id",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": 7,
-    "edited_value": 7,
+    "control_values": [
+      7,
+      7
+    ],
+    "edited_values": [
+      7,
+      7
+    ],
     "policy_decision": "denied"
   },
   {
@@ -458,10 +638,16 @@
     "occurrence": 0,
     "target": "amount",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": 1100.0,
-    "edited_value": 1100.0,
+    "control_values": [
+      1100.0,
+      1100.0
+    ],
+    "edited_values": [
+      1100.0,
+      1100.0
+    ],
     "policy_decision": "denied"
   },
   {
@@ -473,10 +659,16 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": true,
-    "edited_value": true,
+    "control_values": [
+      true,
+      true
+    ],
+    "edited_values": [
+      true,
+      true
+    ],
     "policy_decision": "denied"
   },
   {
@@ -488,10 +680,16 @@
     "occurrence": 0,
     "target": "street",
     "camel_label": "untrusted",
-    "changed": true,
+    "verdict": "changed",
     "cell": "TP",
-    "baseline_value": "Dalton Street 123",
-    "edited_value": "Maple Street 9",
+    "control_values": [
+      "Dalton Street 123",
+      "Dalton Street 123"
+    ],
+    "edited_values": [
+      "Maple Street 9",
+      "Maple Street 9"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -503,10 +701,16 @@
     "occurrence": 0,
     "target": "city",
     "camel_label": "untrusted",
-    "changed": true,
+    "verdict": "changed",
     "cell": "TP",
-    "baseline_value": "New York",
-    "edited_value": "Boston",
+    "control_values": [
+      "New York",
+      "New York"
+    ],
+    "edited_values": [
+      "Boston",
+      "Boston"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -518,10 +722,16 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "untrusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "FP",
-    "baseline_value": true,
-    "edited_value": true,
+    "control_values": [
+      true,
+      true
+    ],
+    "edited_values": [
+      true,
+      true
+    ],
     "policy_decision": "denied"
   },
   {
@@ -533,10 +743,16 @@
     "occurrence": 0,
     "target": "id",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": 7,
-    "edited_value": 7,
+    "control_values": [
+      7,
+      7
+    ],
+    "edited_values": [
+      7,
+      7
+    ],
     "policy_decision": "denied"
   },
   {
@@ -548,10 +764,16 @@
     "occurrence": 0,
     "target": "amount",
     "camel_label": "untrusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "FP",
-    "baseline_value": 1100.0,
-    "edited_value": 1100.0,
+    "control_values": [
+      1100.0,
+      1100.0
+    ],
+    "edited_values": [
+      1100.0,
+      1100.0
+    ],
     "policy_decision": "denied"
   },
   {
@@ -563,10 +785,16 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "untrusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "FP",
-    "baseline_value": true,
-    "edited_value": true,
+    "control_values": [
+      true,
+      true
+    ],
+    "edited_values": [
+      true,
+      true
+    ],
     "policy_decision": "denied"
   },
   {
@@ -578,10 +806,16 @@
     "occurrence": 0,
     "target": "street",
     "camel_label": "untrusted",
-    "changed": true,
+    "verdict": "changed",
     "cell": "TP",
-    "baseline_value": "Dalton Street 123",
-    "edited_value": "Maple Street 9",
+    "control_values": [
+      "Dalton Street 123",
+      "Dalton Street 123"
+    ],
+    "edited_values": [
+      "Maple Street 9",
+      "Maple Street 9"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -593,10 +827,16 @@
     "occurrence": 0,
     "target": "city",
     "camel_label": "untrusted",
-    "changed": true,
+    "verdict": "changed",
     "cell": "TP",
-    "baseline_value": "New York",
-    "edited_value": "Boston",
+    "control_values": [
+      "New York",
+      "New York"
+    ],
+    "edited_values": [
+      "Boston",
+      "Boston"
+    ],
     "policy_decision": "denied"
   },
   {
@@ -608,10 +848,16 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": true,
-    "edited_value": true,
+    "control_values": [
+      true,
+      true
+    ],
+    "edited_values": [
+      true,
+      true
+    ],
     "policy_decision": "allowed"
   },
   {
@@ -623,10 +869,16 @@
     "occurrence": 0,
     "target": "recipient",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": "US122000000121212121212",
-    "edited_value": "US122000000121212121212",
+    "control_values": [
+      "US122000000121212121212",
+      "US122000000121212121212"
+    ],
+    "edited_values": [
+      "US122000000121212121212",
+      "US122000000121212121212"
+    ],
     "policy_decision": "allowed"
   },
   {
@@ -638,10 +890,16 @@
     "occurrence": 0,
     "target": "amount",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": 50.0,
-    "edited_value": 50.0,
+    "control_values": [
+      50.0,
+      50.0
+    ],
+    "edited_values": [
+      50.0,
+      50.0
+    ],
     "policy_decision": "allowed"
   },
   {
@@ -653,10 +911,16 @@
     "occurrence": 0,
     "target": "subject",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": "Fixed transfer",
-    "edited_value": "Fixed transfer",
+    "control_values": [
+      "Fixed transfer",
+      "Fixed transfer"
+    ],
+    "edited_values": [
+      "Fixed transfer",
+      "Fixed transfer"
+    ],
     "policy_decision": "allowed"
   },
   {
@@ -668,10 +932,16 @@
     "occurrence": 0,
     "target": "date",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": "2023-12-31",
-    "edited_value": "2023-12-31",
+    "control_values": [
+      "2023-12-31",
+      "2023-12-31"
+    ],
+    "edited_values": [
+      "2023-12-31",
+      "2023-12-31"
+    ],
     "policy_decision": "allowed"
   },
   {
@@ -683,10 +953,16 @@
     "occurrence": 0,
     "target": "<occurrence>",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": true,
-    "edited_value": true,
+    "control_values": [
+      true,
+      true
+    ],
+    "edited_values": [
+      true,
+      true
+    ],
     "policy_decision": "allowed"
   },
   {
@@ -698,10 +974,16 @@
     "occurrence": 0,
     "target": "recipient",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": "US122000000121212121212",
-    "edited_value": "US122000000121212121212",
+    "control_values": [
+      "US122000000121212121212",
+      "US122000000121212121212"
+    ],
+    "edited_values": [
+      "US122000000121212121212",
+      "US122000000121212121212"
+    ],
     "policy_decision": "allowed"
   },
   {
@@ -713,10 +995,16 @@
     "occurrence": 0,
     "target": "amount",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": 50.0,
-    "edited_value": 50.0,
+    "control_values": [
+      50.0,
+      50.0
+    ],
+    "edited_values": [
+      50.0,
+      50.0
+    ],
     "policy_decision": "allowed"
   },
   {
@@ -728,10 +1016,16 @@
     "occurrence": 0,
     "target": "subject",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": "Fixed transfer",
-    "edited_value": "Fixed transfer",
+    "control_values": [
+      "Fixed transfer",
+      "Fixed transfer"
+    ],
+    "edited_values": [
+      "Fixed transfer",
+      "Fixed transfer"
+    ],
     "policy_decision": "allowed"
   },
   {
@@ -743,10 +1037,16 @@
     "occurrence": 0,
     "target": "date",
     "camel_label": "trusted",
-    "changed": false,
+    "verdict": "unchanged",
     "cell": "TN",
-    "baseline_value": "2023-12-31",
-    "edited_value": "2023-12-31",
+    "control_values": [
+      "2023-12-31",
+      "2023-12-31"
+    ],
+    "edited_values": [
+      "2023-12-31",
+      "2023-12-31"
+    ],
     "policy_decision": "allowed"
   }
 ]

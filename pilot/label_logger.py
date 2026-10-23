@@ -1,20 +1,15 @@
-"""FR2: Record tool calls and the labels CaMeL assigns to them.
-
-LoggingPolicyEngine wraps the existing CaMeL security policy engine and records
-the details of each tool call, including:
-
-- the tool name and argument values,
-- whether each argument is trusted and public, and its sources,
-- whether the control dependencies contain untrusted or non-public data,
-- whether the original policy allows or denies the call.
-
-In observe mode, every call is allowed to continue, even if the original
-policy would deny it. This lets the oracle compare the calls the plan makes
-with the labels CaMeL assigns to them.
-
-In enforce mode, the original policy decision is kept, so the logger does
-not change whether a call is allowed or denied.
-"""
+# The label logger (FR2): records every tool call together with the labels CaMeL gives it.
+#
+# It wraps CaMeL's policy engine. Every time CaMeL checks a policy, it records:
+# - the tool name and the value of each argument
+# - for each argument, whether CaMeL labels it trusted, and where it came from (sources)
+# - the control context (the dependencies CaMeL passes in: if conditions, for loops and,
+#   in STRICT mode, the inputs of query_ai_assistant) and whether any of it is untrusted
+# - what the policy would have decided
+#
+# In observe mode it always returns Allowed, so a denied call still runs. The oracle needs
+# this because it compares the calls the plan tries to make, even if a policy would block them.
+# With observe=False it returns the real policy decision, so logging never changes behaviour.
 
 from __future__ import annotations
 
@@ -28,8 +23,8 @@ from camel.interpreter.value import CaMeLValue
 from camel.security_policy import Allowed, Denied, SecurityPolicyEngine, SecurityPolicyResult
 
 
+# Gets the plain Python value out of a CaMeL value, in a form that can be saved as JSON.
 def _safe_raw(v: CaMeLValue) -> Any:
-    """A JSON-friendly version of a CaMeL value's raw Python value."""
     raw = v.raw
     try:
         json.dumps(raw)
@@ -38,11 +33,13 @@ def _safe_raw(v: CaMeLValue) -> Any:
         return repr(raw)
 
 
+# Lists where a value came from (its sources), as text.
 def _sources(v: CaMeLValue) -> list[str]:
     srcs, _ = get_all_sources(v)
     return sorted(str(s) for s in srcs)
 
 
+# One argument of one call, with its label.
 @dataclasses.dataclass
 class ArgRecord:
     name: str
@@ -52,6 +49,7 @@ class ArgRecord:
     sources: list[str]
 
 
+# One tool call, its arguments, its control context and the policy decision.
 @dataclasses.dataclass
 class CallRecord:
     index: int
@@ -70,9 +68,8 @@ class CallRecord:
         return dataclasses.asdict(self)
 
 
+# Wraps CaMeL's policy engine and records every check on an AgentDojo tool.
 class LoggingPolicyEngine(SecurityPolicyEngine):
-    """Wraps a CaMeL policy engine and records every check on an AgentDojo tool."""
-
     def __init__(self, inner: SecurityPolicyEngine, logged_tools: Iterable[str], observe: bool = True) -> None:
         self.inner = inner
         self.policies = inner.policies

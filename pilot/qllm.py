@@ -1,13 +1,10 @@
-"""Quarantined-LLM back ends for the spike.
-
-- `stub`: a deterministic, rule-based extractor for the spike's plans. It has no
-  randomness, so it isolates the oracle mechanism from model noise.
-- any other value, for example `openai:llama31-camel`: the model name is passed to
-  CaMeL's own `query_quarantined_llm` exactly as `PrivilegedLLM` does (same retries).
-  With `uv run --env-file .env`, `OPENAI_BASE_URL` points it at the local Ollama
-  server, the same set-up as the main.py runs. This is the configuration whose
-  noise the control replays measure.
-"""
+# The quarantined LLM used by the pilot.
+#
+# - "stub": a simple rule-based extractor written for these 4 plans. It always gives the
+#   same answer, so it tests the oracle without any model noise.
+# - anything else, for example "openai:llama31-camel": the model name is passed to CaMeL's
+#   own query_quarantined_llm, the same way PrivilegedLLM does. With uv run --env-file .env,
+#   OPENAI_BASE_URL sends it to the local Ollama server, same as the main.py runs.
 
 import re
 from typing import TypeVar
@@ -54,12 +51,12 @@ def _stub_extract(query: str, output_schema: type) -> object:
     return output_schema(**out)
 
 
-# Same number of retries CaMeL's PrivilegedLLM gives the quarantined LLM.
+# CaMeL's PrivilegedLLM also gives the quarantined LLM 10 retries.
 QLLM_RETRIES = 10
 
 
+# Makes the query_ai_assistant function that the plans call.
 def make_query_ai_assistant(backend: str):
-    """Returns a `query_ai_assistant` function suitable for `FunctionsRuntime.register_function`."""
     if backend == "stub":
 
         def query_ai_assistant(query: str, output_schema: type[_T]) -> _T:

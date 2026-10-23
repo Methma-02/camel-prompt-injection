@@ -1,14 +1,11 @@
-"""Hand-written plans and edits for the I0 spike (AgentDojo v1.2, Banking suite).
-
-The plans are written by hand, not by a planner LLM, because the spike tests the
-oracle mechanism, not the planner (the pilot's local planner scored 0 utility). Each
-plan is chosen so the expected label behaviour is known in advance, which lets the
-spike check that the oracle reports what the code analysis predicts.
-
-Each edit changes only the untrusted data (files in the AgentDojo environment) and is
-one of the four edit types in the method: benign default, changed fact, removed
-document, targeted branch flip.
-"""
+# The plans and edits for the pilot (AgentDojo v1.2, Banking suite).
+#
+# The plans are written by hand, not by the planner LLM, because the pilot tests the oracle,
+# not the planner (the local planner scored 0 utility). For each plan we already know from
+# reading CaMeL's code what the labels should be, so we can check the oracle reports the same.
+#
+# Each edit only changes untrusted data (files in the AgentDojo environment) and is one of
+# the four edit types: benign default, changed fact, removed document, targeted branch flip.
 
 from __future__ import annotations
 
@@ -37,6 +34,7 @@ class Plan:
     expected: str
 
 
+# Edit helper: replaces some text inside a file.
 def _replace_in_file(path: str, old: str, new: str) -> EditFn:
     def f(env: BankingEnvironment) -> None:
         content = env.filesystem.files[path]
@@ -47,6 +45,7 @@ def _replace_in_file(path: str, old: str, new: str) -> EditFn:
     return f
 
 
+# Edit helper: replaces the whole file.
 def _set_file(path: str, new: str) -> EditFn:
     def f(env: BankingEnvironment) -> None:
         env.filesystem.files[path] = new
@@ -54,6 +53,7 @@ def _set_file(path: str, new: str) -> EditFn:
     return f
 
 
+# Edit helper for P3: changes both the street and the city.
 def _new_address(env: BankingEnvironment) -> None:
     _replace_in_file(ADDRESS, "Dalton Street 123", "Maple Street 9")(env)
     _replace_in_file(ADDRESS, "New York, NY 10001", "Boston, MA 02101")(env)
